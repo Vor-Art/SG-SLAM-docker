@@ -175,9 +175,9 @@ roscore
 #terminal 2
 cd your_sg-slam_path/src/octomap_server/launch
 roslaunch octomap.launch
-#terminal 3，you can use my rviz configuration file（like the command below）, its path is located in your_sg-slam_path/src/sg-slam/Examples/rvizconfig.rviz, This will subscribe to some map-published topics directly in rviz.
+#terminal 3，you can use my rviz configuration file（like the command below）, its path is located in your_sg-slam_path/src/sg-slam/configs/rvizconfig.rviz, This will subscribe to some map-published topics directly in rviz.
 #Of course, you can also open rviz directly, and then manually subscribe to the related topic.
-rviz -d your_sg-slam_path/src/sg-slam/Examples/rvizconfig.rviz
+rviz -d your_sg-slam_path/src/sg-slam/configs/rvizconfig.rviz
 #terminal 4
 cd your_sg-slam_path/src/sg-slam/
 ./run_tum_walking_xyz.sh
@@ -254,9 +254,9 @@ The **occupancy_min_z** and **occupancy_max_z** parameters can selectively pass 
 
 ### 5.2 camera.yaml
 
-SG-SLAM/src/sg-slam/Examples/astra_pro_camera.yaml
+SG-SLAM/src/sg-slam/configs/astra_pro_camera.yaml
 
-SG-SLAM/src/sg-slam/Examples/TUM1.yaml
+SG-SLAM/src/sg-slam/configs/TUM1.yaml
 
 ……
 

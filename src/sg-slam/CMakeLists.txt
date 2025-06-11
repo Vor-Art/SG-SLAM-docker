@@ -58,7 +58,7 @@ add_definitions(${PCL_DEFINITIONS})
 link_directories(${PCL_LIBRARY_DIRS})
 
 # -------------------------- Output folders -----------------------------------
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/run_examples)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 
 # -------------------------- Core library -------------------------------------
@@ -102,8 +102,8 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # -------------------------- Executables --------------------------------------
-add_executable(sg_slam_tum        Examples/rgbd_tum.cc)
-add_executable(sg_slam_ros_rgbd   Examples/ros_rgbd.cc)
+add_executable(sg_slam_tum        run_examples/rgbd_tum.cc)
+add_executable(sg_slam_ros_rgbd   run_examples/ros_rgbd.cc)
 
 target_link_libraries(sg_slam_tum       ${PROJECT_NAME})
 target_link_libraries(sg_slam_ros_rgbd  ${PROJECT_NAME})

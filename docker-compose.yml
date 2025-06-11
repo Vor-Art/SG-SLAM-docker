@@ -16,16 +16,18 @@ services:
       - DISPLAY=${DISPLAY}
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
+      - QT_X11_NO_MITSHM=1
+      - QT_QPA_PLATFORM=xcb
     volumes:
-      - ${TUN_DATASET}:/root/tun_dataset:ro        # dataset
+      - ${TUN_DATASET}:/root/tun_dataset           # dataset
       - /tmp/.X11-unix:/tmp/.X11-unix:rw           # X11 socket for Pangolin / RViz
+      - ./src/sg-slam/configs:/workspace/SG-SLAM/src/sg-slam/configs
     runtime: ${DOCKER_RUNTIME:-nvidia}
     command: >
       bash -c "
         source /opt/ros/melodic/setup.bash &&
         source /workspace/SG-SLAM/devel/setup.bash &&
         roslaunch octomap_server octomap.launch &
-        rviz -d /workspace/SG-SLAM/src/sg-slam/Examples/rvizconfig.rviz &
+        rviz -d /workspace/SG-SLAM/src/sg-slam/configs/rvizconfig.rviz &
         cd /workspace/SG-SLAM/src/sg-slam && ./run_tum.sh
-        bash
       "

@@ -2,3 +2,4 @@ build
 **/build
 .git
 *.bag
+src/sg-slam/configs/*
