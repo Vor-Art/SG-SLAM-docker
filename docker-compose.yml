@@ -13,7 +13,7 @@ services:
     volumes:
       - ./src:/workspace/SG-SLAM/src               # live-edit SG-SLAM sources
       - /tmp/.X11-unix:/tmp/.X11-unix:rw           # X11 socket for Pangolin / RViz
-      - ${HOME}/datasets/TUM:/root/Music/TUM:ro    # dataset example (adjust the host path)
+      - ${DATASET_DIR}:/root/datasets:ro           # dataset
     deploy:
       resources:
         reservations:
