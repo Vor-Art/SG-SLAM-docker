@@ -57,6 +57,10 @@
   <build_depend>tf</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>pcl_ros</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>image_geometry</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>octomap_server</build_depend>
 
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>rospy</build_export_depend>
@@ -70,9 +74,12 @@
   <build_export_depend>grid_map_core</build_export_depend>
   <build_export_depend>grid_map_ros</build_export_depend>
 
-
   <exec_depend>roscpp</exec_depend>
   <exec_depend>rospy</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>image_geometry</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>octomap_server</exec_depend>
   <exec_depend>message_generation</exec_depend>
   <exec_depend>message_filters</exec_depend>
   <exec_depend>image_transport</exec_depend>

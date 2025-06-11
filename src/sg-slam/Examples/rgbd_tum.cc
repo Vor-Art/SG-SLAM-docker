@@ -65,6 +65,7 @@ int main(int argc, char **argv)
         cerr << endl << "Usage: ./rgbd_tum path_to_vocabulary path_to_settings path_to_sequence path_to_association" << endl;
         return 1;
     }
+    cout << "Start rgbd_tum" << endl;
 
     // Retrieve paths to images
     vector<string> vstrImageFilenamesRGB;

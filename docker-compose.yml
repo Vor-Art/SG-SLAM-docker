@@ -6,30 +6,26 @@ services:
       dockerfile: docker/Dockerfile
     container_name: sg_slam
     network_mode: host
+    ipc: host
+    pid: host
+    tty: true
+    privileged: true
+    gpus: all
     environment:
-      DISPLAY: ${DISPLAY}
-      QT_QPA_PLATFORM: xcb
-      QT_X11_NO_MITSHM: "1"
+      # Allows graphical programs in the container.
+      - DISPLAY=${DISPLAY}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
-      # - ./src:/workspace/SG-SLAM/src               # live-edit SG-SLAM sources
+      - ${TUN_DATASET}:/root/tun_dataset:ro        # dataset
       - /tmp/.X11-unix:/tmp/.X11-unix:rw           # X11 socket for Pangolin / RViz
-      - ${TUN_DATASET}:/root/tun_dataset:ro           # dataset
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              capabilities: [gpu]
-    runtime: nvidia
-    tty: true          # <── keeps bash alive
-    stdin_open: true   # <── allows interactive input
+    runtime: ${DOCKER_RUNTIME:-nvidia}
     command: >
       bash -c "
         source /opt/ros/melodic/setup.bash &&
         source /workspace/SG-SLAM/devel/setup.bash &&
         roslaunch octomap_server octomap.launch &
         rviz -d /workspace/SG-SLAM/src/sg-slam/Examples/rvizconfig.rviz &
+        cd /workspace/SG-SLAM/src/sg-slam && ./run_tum.sh
         bash
       "
-
-# source /opt/ros/melodic/setup.bash && source /workspace/SG-SLAM/devel/setup.bash && cd /workspace/SG-SLAM/src/sg-slam && ./run_tum_walking_xyz.sh

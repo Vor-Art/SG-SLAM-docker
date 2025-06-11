@@ -71,11 +71,8 @@ RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_init_workspace"
 WORKDIR /workspace/SG-SLAM
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
     rosdep install --from-paths src --ignore-src -r -y && \
-    catkin_make -DCMAKE_BUILD_TYPE=Release && \
-    catkin_make --pkg cv_bridge  && \
-    catkin_make --pkg image_geometry  && \
-    catkin_make --pkg octomap_server  && \
-    catkin_make --pkg sg-slam"
+    catkin_make -DCMAKE_BUILD_TYPE=Release"
+
 
 # Runtime environment
 ENV ROS_PACKAGE_PATH=/workspace/SG-SLAM/src
