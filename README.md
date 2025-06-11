@@ -39,13 +39,7 @@ xhost +local:root          # allow GUI apps from the container
 docker compose build       # ~10 min first time (OpenCV build)
 ```
 
-### 4  Start the container
-
-```bash
-docker compose up -d       # launches an interactive bash that stays alive
-```
-
-### 5  Run the demo
+### 4  Run the demo
 
 Place your TUM dataset files under `./datasets/TUM` on your host machine.
 And update the `TUN_DATASET` in the `.env` file.
