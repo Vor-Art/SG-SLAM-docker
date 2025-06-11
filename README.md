@@ -56,17 +56,10 @@ source .env && python3 scripts/TUN_rgbd_tools/associate_3.py $TUN_DATASET/rgb.tx
 xt > $TUN_DATASET/associations.txt
 ```
 
-Inside the container shell:
+Run service:
 
 ```bash
-docker compose exec sg_slam bash
-
-# 1 — environment
-source /opt/ros/melodic/setup.bash
-source /workspace/SG-SLAM/devel/setup.bash
-
-# 2 — run SLAM on a TUM RGB‑D sequence
-cd /workspace/SG-SLAM/src/sg-slam & ./run_tum_walking_xyz.sh
+docker compose up sg_slam_tum
 ```
 
 ---

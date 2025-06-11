@@ -1,5 +1,5 @@
 services:
-  sg_slam:
+  sg_slam_tum:
     image: sg_slam:melodic
     build:
       context: .
@@ -30,4 +30,5 @@ services:
         roslaunch octomap_server octomap.launch &
         rviz -d /workspace/SG-SLAM/src/sg-slam/configs/rvizconfig.rviz &
         cd /workspace/SG-SLAM/src/sg-slam && ./run_tum.sh
+        bash
       "
