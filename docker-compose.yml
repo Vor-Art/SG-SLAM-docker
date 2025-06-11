@@ -1,0 +1,33 @@
+services:
+  sg_slam:
+    image: sg_slam:melodic
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: sg_slam
+    network_mode: host
+    environment:
+      DISPLAY: ${DISPLAY}
+      QT_QPA_PLATFORM: xcb
+      QT_X11_NO_MITSHM: "1"
+    volumes:
+      - ./src:/workspace/SG-SLAM/src               # live-edit SG-SLAM sources
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw           # X11 socket for Pangolin / RViz
+      - ${HOME}/datasets/TUM:/root/Music/TUM:ro    # dataset example (adjust the host path)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+    runtime: nvidia
+    tty: true          # <── keeps bash alive
+    stdin_open: true   # <── allows interactive input
+    command: >
+      bash -c "
+        source /opt/ros/melodic/setup.bash &&
+        source /workspace/SG-SLAM/devel/setup.bash &&
+        roslaunch octomap_server octomap.launch &
+        rviz -d /workspace/SG-SLAM/src/sg-slam/Examples/rvizconfig.rviz &
+        bash
+      "
