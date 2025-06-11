@@ -19,7 +19,6 @@ This fork adds a one‑command Docker/Compose workflow, so you can demo or hack 
 ### 1  Clone & enter the repo
 
 ```bash
-# your fork
 git https://github.com/Vor-Art/SG-SLAM-docker.git
 cd SG-SLAM-docker
 ```
