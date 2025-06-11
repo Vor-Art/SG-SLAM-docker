@@ -11,9 +11,9 @@ services:
       QT_QPA_PLATFORM: xcb
       QT_X11_NO_MITSHM: "1"
     volumes:
-      - ./src:/workspace/SG-SLAM/src               # live-edit SG-SLAM sources
+      # - ./src:/workspace/SG-SLAM/src               # live-edit SG-SLAM sources
       - /tmp/.X11-unix:/tmp/.X11-unix:rw           # X11 socket for Pangolin / RViz
-      - ${DATASET_DIR}:/root/datasets:ro           # dataset
+      - ${TUN_DATASET}:/root/tun_dataset:ro           # dataset
     deploy:
       resources:
         reservations:
@@ -31,3 +31,5 @@ services:
         rviz -d /workspace/SG-SLAM/src/sg-slam/Examples/rvizconfig.rviz &
         bash
       "
+
+# source /opt/ros/melodic/setup.bash && source /workspace/SG-SLAM/devel/setup.bash && cd /workspace/SG-SLAM/src/sg-slam && ./run_tum_walking_xyz.sh

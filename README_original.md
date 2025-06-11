@@ -263,7 +263,6 @@ SG-SLAM/src/sg-slam/Examples/TUM1.yaml
 The following parameter items have been newly added to the imager configuration parameters file, and the roles of these parameters are described in turn later.
 
 ```yaml
-%YAML:1.0
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
 #--------------------------------------------------------------------------------------------

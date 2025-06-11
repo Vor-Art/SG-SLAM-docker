@@ -48,7 +48,13 @@ docker compose up -d       # launches an interactive bash that stays alive
 ### 5  Run the demo
 
 Place your TUM dataset files under `./datasets/TUM` on your host machine.
-Or update the `DATASET_DIR` in the `.env` file.
+And update the `TUN_DATASET` in the `.env` file.
+
+Create the association file:
+```bash
+source .env && python3 scripts/TUN_rgbd_tools/associate_3.py $TUN_DATASET/rgb.txt $TUN_DATASET/depth.t
+xt > $TUN_DATASET/associations.txt
+```
 
 Inside the container shell:
 
