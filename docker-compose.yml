@@ -1,13 +1,9 @@
 services:
   sg_slam_tum:
     image: sg_slam:melodic
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: sg_slam
+    container_name: sg_slam_tum
     network_mode: host
     ipc: host
-    pid: host
     tty: true
     privileged: true
     gpus: all
@@ -32,3 +28,49 @@ services:
         cd /workspace/SG-SLAM/src/sg-slam && ./run_tum.sh
         bash
       "
+  sg_slam:
+    image: sg_slam:melodic
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: sg_slam
+    network_mode: host
+    ipc: host
+    tty: true
+    privileged: true
+    gpus: all
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_QPA_PLATFORM=xcb
+      - ROS_MASTER_URI=http://localhost:11311
+      - ROS_HOSTNAME=localhost
+    volumes:
+      - ./src/sg-slam/configs:/workspace/SG-SLAM/src/sg-slam/configs
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    runtime: ${DOCKER_RUNTIME:-nvidia}
+    command: >
+      bash -c "
+        source /opt/ros/melodic/setup.bash &&
+        source /workspace/SG-SLAM/devel/setup.bash &&
+        roslaunch octomap_server octomap.launch &
+        rviz -d /workspace/SG-SLAM/src/sg-slam/configs/rvizconfig.rviz &
+
+        source /opt/ros/melodic/setup.bash &&
+        source /workspace/SG-SLAM/devel/setup.bash && \
+        rosrun sg-slam sg_slam_ros_rgbd _topic_rgb:=/camera/color/image_raw _topic_depth:=/camera/aligned_depth_to_color/image_raw SG-SLAM/src/sg-slam/Vocabulary/ORBvoc.bin  SG-SLAM/src/sg-slam/configs/realsense.yaml
+      "
+  
+  realsense:
+    build:
+      context: .
+      dockerfile: docker/realsense.Dockerfile
+    container_name: realsense
+    network_mode: host           # RealSense topics visible to SG-SLAM
+    privileged: true             # lets container access USB & udev
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_QPA_PLATFORM=xcb
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix    # view rs_camera in RViz if desired

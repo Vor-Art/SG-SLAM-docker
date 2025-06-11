@@ -55,6 +55,16 @@ Run service:
 docker compose up sg_slam_tum
 ```
 
+![alt text](doc/imgs/sg_slam_tum.png){width=600}
+
+### 5  Run Realsense in Real
+
+```bash
+docker compose build
+docker compose up sg_slam realsense
+```
+
+![alt text](doc/imgs/sg_slam_realsense.png){width=600}
 ---
 
 

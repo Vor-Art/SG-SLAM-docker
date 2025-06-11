@@ -115,7 +115,6 @@ catkin_package(
   CATKIN_DEPENDS roscpp sensor_msgs cv_bridge image_geometry tf
 )
 
-
 # -------------------------- Install rules ------------
 install(TARGETS ${PROJECT_NAME} sg_slam_tum sg_slam_ros_rgbd
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

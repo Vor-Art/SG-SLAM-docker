@@ -1,0 +1,94 @@
+%YAML:1.0
+# =============================================================================
+# RealSense D435i — SG-SLAM RGB-D configuration
+#   • color   1280×720  @30 Hz   (RGB8)
+#   • depth    848×480  @30 Hz   (Z16, aligned to color)
+# -----------------------------------------------------------------------------
+# Adjust only if you re-calibrate or change resolution.
+# =============================================================================
+
+# ----------------------------------------------------------------------------- 
+# Camera intrinsics  (depth & color share the same principal point after ALIGN)
+# -----------------------------------------------------------------------------
+Camera.fx: 614.177      # focal lengths (px)
+Camera.fy: 614.154
+Camera.cx: 322.052      # principal point (px)
+Camera.cy: 242.011
+
+# Brown-Conrady distortion (already rectified by driver → zero)
+Camera.k1: 0.0
+Camera.k2: 0.0
+Camera.p1: 0.0
+Camera.p2: 0.0
+
+Camera.width: 848       # depth image dimensions (after align)
+Camera.height: 480
+
+# ----------------------------------------------------------------------------- 
+# Stream & sensor geometry
+# -----------------------------------------------------------------------------
+Camera.fps: 30.0
+Camera.bf: 32.8         # baseline (0.053 m) × fx  → 0.053*614 ≈ 32.8
+
+# RealSense publishes RGB (not BGR)
+Camera.RGB: 1           # 1 = RGB order
+
+# Depth threshold (in mm, ≈ bf)
+ThDepth: 40.0
+
+# Depth scale: RealSense Z16 gives depth in **millimetres**.
+DepthMapFactor: 1000.0  # mm → metres
+
+# -----------------------------------------------------------------------------
+# ORB extractor
+# -----------------------------------------------------------------------------
+ORBextractor.nFeatures: 1200
+ORBextractor.scaleFactor: 1.2
+ORBextractor.nLevels: 8
+ORBextractor.iniThFAST: 20
+ORBextractor.minThFAST: 7
+
+# -----------------------------------------------------------------------------
+# Viewer
+# -----------------------------------------------------------------------------
+Viewer.KeyFrameSize: 0.05
+Viewer.KeyFrameLineWidth: 1
+Viewer.GraphLineWidth: 0.9
+Viewer.PointSize: 2
+Viewer.CameraSize: 0.08
+Viewer.CameraLineWidth: 3
+Viewer.ViewpointX: 0
+Viewer.ViewpointY: -0.7
+Viewer.ViewpointZ: -1.8
+Viewer.ViewpointF: 500
+
+# -----------------------------------------------------------------------------
+# Point-cloud / Octomap
+# -----------------------------------------------------------------------------
+PointCloudMapping.is_map_construction_consider_dynamic: 1
+PointCloudMapping.camera_valid_depth_Min: 0.3   # D435i min reliable range
+PointCloudMapping.camera_valid_depth_Max: 6.0   # max before depth noise explodes
+PointCloudMapping.is_octo_semantic_map_construction: 1
+PointCloudMapping.Sor_Local_MeanK: 50
+PointCloudMapping.Sor_Local_StddevMulThresh: 3.0
+PointCloudMapping.Voxel_Local_LeafSize: 0.01
+
+PointCloudMapping.is_global_pc_reconstruction: 0
+PointCloudMapping.Sor_Global_MeanK: 50
+PointCloudMapping.Sor_Global_StddevMulThresh: 3.0
+PointCloudMapping.Voxel_Global_LeafSize: 0.01
+
+# -----------------------------------------------------------------------------
+# 3-D Detector (defaults unchanged; tune if object cloud is noisy)
+# -----------------------------------------------------------------------------
+Detector3D.Sor_MeanK: 50
+Detector3D.Sor_StddevMulThresh: 1.0
+Detector3D.Voxel_LeafSize: 0.01
+Detector3D.EuclideanClusterTolerance: 0.02
+Detector3D.EuclideanClusterMinSize: 1000
+Detector3D.EuclideanClusterMaxSize: 30000
+Detector3D.DetectSimilarCompareRatio: 0.1
+Detector3D.global_pc_update_kf_threshold: 25
+
+Detector2D.detection_confidence_threshold: 0.90
+Detector2D.dynamic_detection_confidence_threshold: 0.01

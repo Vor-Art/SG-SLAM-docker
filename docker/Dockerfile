@@ -1,5 +1,5 @@
 # ---------- deps & third-party ----------
-FROM ros:melodic-ros-base-bionic AS deps
+FROM ros:melodic-ros-base-bionic
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
@@ -31,23 +31,21 @@ RUN git clone --depth 1 --branch 3.4.15 https://github.com/opencv/opencv.git && 
     make -j$(nproc) && make install && ldconfig
 
 # SG-SLAM third-party
-WORKDIR /workspace
-COPY ./src/sg-slam/Thirdparty /workspace/SG-SLAM/src/sg-slam/Thirdparty
-WORKDIR /workspace/SG-SLAM/src/sg-slam/Thirdparty
+WORKDIR /deps
+COPY ./src/sg-slam/Thirdparty /deps/SG-SLAM/src/sg-slam/Thirdparty
+WORKDIR /deps/SG-SLAM/src/sg-slam/Thirdparty
 RUN ./ThirdpartyBuild.sh
 
 # ncnn
-WORKDIR /workspace/SG-SLAM/src/sg-slam/Thirdparty/ncnn
+WORKDIR /deps/SG-SLAM/src/sg-slam/Thirdparty/ncnn
 RUN mkdir build && cd build && \
     cmake -DCMAKE_TOOLCHAIN_FILE=../toolchains/host.gcc.toolchain.cmake -DNCNN_DISABLE_RTTI=OFF .. && \
     make -j$(nproc) && make install
+
+COPY ./src /workspace/SG-SLAM/src
+RUN cp -rf /deps/SG-SLAM/src/sg-slam/Thirdparty /workspace/SG-SLAM/src/sg-slam/
+RUN rm -rf /deps/
 ENV ncnn_DIR=/workspace/SG-SLAM/src/sg-slam/Thirdparty/ncnn/build/install/lib/cmake/ncnn
-
-# ---------- build stage ----------
-FROM deps AS build
-
-COPY . /workspace/SG-SLAM
-COPY --from=deps /workspace/SG-SLAM/src/sg-slam/Thirdparty /workspace/SG-SLAM/src/sg-slam/Thirdparty
 
 WORKDIR /workspace/SG-SLAM/src
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && catkin_init_workspace"
@@ -58,7 +56,6 @@ RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
     catkin_make -DCMAKE_BUILD_TYPE=Release"
 
 COPY src/sg-slam/configs /workspace/SG-SLAM/src/sg-slam/configs
-
 ENV ROS_PACKAGE_PATH=/workspace/SG-SLAM/src
 
 WORKDIR /workspace
